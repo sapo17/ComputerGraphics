@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab1</title>
+
+    <!-- Shaders -->
+    <script id="vertex-shader" type="x-shader/x-vertex" >
+        attribute vec4 vPosition;
+        attribute vec3 vNormal;
+        attribute vec4 vColor;
+
+        varying vec4 fColor;
+        varying float fragmentShading;
+        varying float s;                                                                // shininess - in case fragment shading activated
+        varying vec3 l, n, v;
+        varying vec4 aP, dP, sP;                                                        // products - in case fragment shading activated
+
+        uniform float vertexShading;
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        uniform mat3 normalMatrix;
+
+        uniform vec4 lightPosition;
+        uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+        uniform float shininess;
+
+        void main () {
+
+            l = normalize( lightPosition - ( modelViewMatrix * vPosition ) ).xyz;       // light direction
+            n = normalize( normalMatrix * vNormal );                                    // normal vector
+            v = normalize( - ( modelViewMatrix * vPosition ).xyz );                     // viewer direction
+
+            if ( vertexShading == 1.0 ) {                                               // Activates vertex shading
+                vec3 h = normalize( l + v );                                            // halfway vector
+
+                vec4 ambient = ambientProduct;
+
+                float diffuseAngle = max( dot( l,n ), 0.0 );
+                vec4 diffuse = diffuseAngle * diffuseProduct;
+
+                float specularAngle = pow( max( dot( n,h ), 0.0 ), shininess*0.1 );
+                vec4 specular = specularAngle * specularProduct;
+
+                fColor = ambient + diffuse + specular;
+                fColor.a = 1.0;
+                fragmentShading = 0.0;
+            } else if ( vertexShading == 0.0 ) {                                        // Default: fragment shading active
+                fragmentShading = 1.0;
+                aP = ambientProduct;
+                dP = diffuseProduct;
+                sP = specularProduct;
+                s = shininess;
+            }
+
+            fColor += vColor;
+            fColor.a = 1.0;
+            gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment" >
+        precision mediump float;
+
+        varying vec4 fColor;
+        varying vec4 aP, dP, sP;
+        varying float fragmentShading, s;
+        varying vec3 l, n, v;
+
+        void main () {
+
+            if ( fragmentShading == 1.0 ) {
+                vec3 h = normalize( l + v );                                            // halfway vector
+
+                vec4 ambient = aP;
+
+                float diffuseAngle = max( dot( l,n ), 0.0 );
+                vec4 diffuse = diffuseAngle * dP;
+
+                float specularAngle = pow( max( dot( n,h ), 0.0 ), s*0.1 );
+                vec4 specular = specularAngle * sP;
+
+                gl_FragColor = fColor + ambient + diffuse + specular + vec4( 0.0, 0.0, 0.0, 1.0 );
+            } else {
+                gl_FragColor = fColor;
+            }
+
+        }
+    </script>
+
+    <!-- Source -->
+    <script src="WebGLUtils/webgl-utils.js"></script>
+    <script src="initShaders.js"></script>
+    <script src="gl-matrix/gl-matrix-min.js"></script>
+    <script src="helper.js"></script>  
+    <script src="lightning.js"></script>
+    <script src="cube.js"></script>
+    <script src="sphere.js"></script>
+    <script src="render.js"></script>
+    <script src="userInput.js"></script>
+    <script src="canadArm.js"></script>
+    <script src="main.js"></script>
+    
+</head>
+<body onload="main()">
+    
+    
+    <canvas id="gl-canvas" width="512" height="512" >
+        HTML5 canvas element isn't supported
+    </canvas>
+    
+    <div>
+
+        Keyboard inputs:
+
+        <ul>
+            
+            <li> "c": Activates/Deactivates the camera movement </li>
+        
+        </ul>
+
+        If the camera movement is active:
+        <ul>
+
+            <li>"ArrowRight": Moves the camera rightwards</li>
+            <li>"ArrowLeft": Moves the camera leftwards</li>
+            <li>"ArrowUp": Moves the camera upwards</li>
+            <li>"ArrowDown": Moves the camera downwards</li>
+            <li>"-": Moves the camera closer/away</li>
+            <li>".": Moves the camera closer/away</li>
+
+        </ul>
+
+        otherwise:
+        
+        <ul>
+            <li>"ArrowRight/Left": Base rotation on Y axis</li>
+            <li>"ArrowUp/Down": Lower arm rotation on Z axis</li>
+            <li>"./-": Upper arm rotation on Z axis</li>
+            <li>"k/j": Ground sphere translation on X axis</li>
+            <li>"n/m": Finger rotation on Z axis</li>
+            <li>"p": Picks the object if the distance between the endSphere/finger
+                is lower than 0.35</li>
+            <li>"d": Drops the object</li>
+            <li>"f": Activates fragment shading - default</li>
+            <li>"v": Activates vertex shading - only specular light to see the difference</li>
+        </ul>
+    
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab1</title>
+
+    <!-- Shaders -->
+    <script id="vertex-shader" type="x-shader/x-vertex" >
+        attribute vec4 vPosition;
+        attribute vec4 vColor;
+
+        varying vec4 fColor;
+
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        uniform mat4 transform;
+
+        void main () {
+            fColor = vColor;
+            gl_Position = projectionMatrix * modelViewMatrix * transform * vPosition;
+        }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment" >
+        precision mediump float;
+
+        varying vec4 fColor;
+
+        void main () {
+            gl_FragColor = fColor;
+        }
+    </script>
+
+    <!-- Source -->
+    <script src="WebGLUtils/webgl-utils.js"></script>
+    <script src="initShaders.js"></script>
+    <script src="gl-matrix/gl-matrix-min.js"></script>
+    <script src="helper.js"></script>  
+    <script src="cube.js"></script>
+    <script src="pyramid.js"></script>
+    <script src="coneBase.js"></script>
+    <script src="coneSides.js"></script>
+    <script src="cone.js"></script>
+    <script src="render.js"></script>
+    <script src="main.js"></script>
+    
+</head>
+<body onload="main()">
+    
+    <canvas id="gl-canvas" width="512" height="512" >
+        HTML5 canvas element isn't supported
+    </canvas>
+
+</body>
+</html>
