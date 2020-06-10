@@ -57,7 +57,7 @@ vec3 light::lightning( record& rec, surface *s, const bool &matGiven = false ) {
                             : diffuseAngle * diffuseProduct( s->getDiffuse() );
 
     float shininess = matGiven ? s->getGivenMaterials().getShininess() : 100.0f;
-    float specularAngle = std::pow( std::max( dot( r, v ), 0.0f ), shininess );
+    float specularAngle = std::pow( std::max( dot( r, v ), 0.0f ), shininess*0.1 );
 
     vec3 specular = matGiven ? s->getGivenMaterials().getKs() * specularLight * specularAngle                       // specular term
                              : specularAngle * specularProduct( s->getSpecular() );
