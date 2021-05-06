@@ -1,5 +1,5 @@
-import * as GlobalVariables from './GlobalVariables';
-import * as GlobalFunctions from './GlobalFunctions';
+import * as GlobalVariables from './GlobalVariables.js';
+import * as GlobalFunctions from './GlobalFunctions.js';
 
 function main() {
     
