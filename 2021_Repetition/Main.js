@@ -1,6 +1,8 @@
 import * as GlobalVariables from './GlobalVariables.js';
 import * as GlobalFunctions from './GlobalFunctions.js';
 
+window.onload = main();
+
 function main() {
     
     // setting up WebGL Begins
