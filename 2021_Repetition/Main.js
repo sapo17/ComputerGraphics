@@ -1,4 +1,5 @@
-
+import * as GlobalVariables from './GlobalVariables';
+import * as GlobalFunctions from './GlobalFunctions';
 
 function main() {
     
@@ -16,9 +17,9 @@ function main() {
     // setting up WebGL Ends
 
     // initialise and load shaders begins
-    const vShaderName = 'shaders/VertexShader.glsl';
-    const fShaderName = 'shaders/FragmentShader.glsl';
-    const program = InitShaders( gl, vShaderName, fShaderName );
+    const vShaderName = GlobalVariables.url + 'shaders/VertexShader.glsl';
+    const fShaderName = GlobalVariables.url + 'shaders/FragmentShader.glsl';
+    const program = GlobalFunctions.InitShaders( gl, vShaderName, fShaderName );
     gl.useProgram( program );
     // initialise and load shaders ends
 
@@ -35,7 +36,8 @@ function main() {
     ];
     const vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, array_flatter(vertices), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, GlobalFunctions.array_flatter(vertices),
+                   gl.STATIC_DRAW );
 
     const vPosition = gl.getAttribLocation( program, 'vPosition' );
     gl.vertexAttribPointer( vPosition, 3, gl.FLOAT, false, 0, 0 );
@@ -43,7 +45,8 @@ function main() {
 
     const cBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, array_flatter(colors), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, GlobalFunctions.array_flatter(colors),
+                   gl.STATIC_DRAW );
 
     const vColor = gl.getAttribLocation( program, 'vColor' );
     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
