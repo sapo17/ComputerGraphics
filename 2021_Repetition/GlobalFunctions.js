@@ -1,3 +1,5 @@
+import * as GlobalVariables from "./GlobalVariables";
+
 function loadFileAJAX( name ) {
     var xhr = new XMLHttpRequest();
     var status = ( document.location.protocol === 'file:' ? 0 : 200 );
@@ -75,4 +77,41 @@ export function array_flatter( array ) {
     }
     
     return points;
+}
+
+
+// throws an error with the given error message
+export function throw_error( msg ) {
+    throw new Error( msg );
+}
+
+
+// throws an error if condition is failed
+export function precondition( condition, msg ) {
+    if ( condition ) {
+        throw_error( msg );
+    }
+}
+
+
+// throws an error indicating subclass responsibilty
+export function throw_subclass_error() {
+    throw_error( 'Subclass must implement this method' );
+}
+
+
+// set uniform variable locations
+export function setUniformLocations( gl, program ) {
+    GlobalVariables.translationVectorLoc = gl.getUniformLocation( program,
+        'translationVector');
+    GlobalVariables.rotationVectorLoc = gl.getUniformLocation( program,
+        'rotationVector');
+    GlobalVariables.scalingVectorLoc = gl.getUniformLocation( program,
+        'scalingVector');
+}
+
+
+// send three dimensional vector into the GPU
+export function sendUniform3fv( gl, uniformLocation, vector ) {
+    gl.uniform3fv( uniformLocation, vector );
 }

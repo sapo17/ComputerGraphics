@@ -1,5 +1,6 @@
 import * as GlobalVariables from './GlobalVariables.js';
 import * as GlobalFunctions from './GlobalFunctions.js';
+import Shape from './shape/Shape.js';
 
 window.onload = main();
 
@@ -22,6 +23,7 @@ function main() {
     const program = GlobalFunctions.InitShaders( gl, 
         GlobalVariables.vShaderName, GlobalVariables.fShaderName );
     gl.useProgram( program );
+    GlobalFunctions.setUniformLocations( gl, program );
     // initialise and load shaders ends
 
     // create shapes
@@ -35,35 +37,25 @@ function main() {
         [ 1.0, 0.0, 0.0, 1.0 ],
         [ 1.0, 0.0, 0.0, 1.0 ],
     ];
-    const vBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, GlobalFunctions.array_flatter(vertices),
-                   gl.STATIC_DRAW );
-
-    const vPosition = gl.getAttribLocation( program, 'vPosition' );
-    gl.vertexAttribPointer( vPosition, 3, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
-
-    const cBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, GlobalFunctions.array_flatter(colors),
-                   gl.STATIC_DRAW );
-
-    const vColor = gl.getAttribLocation( program, 'vColor' );
-    gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vColor );
+    const triangleCreator = () => {return vertices}
+    const triangleColorCreator = () => {return colors};
+    const triangle = new Shape();
+    triangle.create( triangleCreator, triangleColorCreator );
     // create shapes ends
-
+    
     // init render
-
+    
     // init render ends
-
+    
     render();
 
-
+    
     function render() {
         gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        gl.drawArrays( gl.TRIANGLES, 0,  vertices.length );
+        triangle.load( gl, program );
+        triangle.transform( gl, vec3.create(), vec3.create(), 
+            vec3.fromValues(0.5, 0.5, 0.5) );
+        triangle.draw( gl, TRIANGLES );
     }
 
 
