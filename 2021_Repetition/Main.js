@@ -62,7 +62,7 @@ function main() {
 
 
     function render() {
-        gl.clear( this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+        gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.drawArrays( gl.TRIANGLES, 0,  vertices.length );
     }
 
