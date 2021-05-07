@@ -62,15 +62,15 @@ export function array_flatter( array ) {
     }
 
     let n = 0;
-    vertices.forEach( array => {
+    array.forEach( array => {
         n += array.length;
     });
 
     let points = new Float32Array( n );
     let idx = 0;
-    for ( let i = 0; i < vertices.length; ++i ) {
-        for ( let j = 0; j < vertices[i].length; ++j ) {
-            points[ idx++ ] = vertices[i][j];
+    for ( let i = 0; i < array.length; ++i ) {
+        for ( let j = 0; j < array[i].length; ++j ) {
+            points[ idx++ ] = array[i][j];
         }
     }
     

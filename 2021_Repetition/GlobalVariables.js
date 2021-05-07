@@ -1,1 +1,2 @@
-export const url = 'https://127.0.0.1:8080/';
+export const vShaderName = 'shaders/VertexShader.glsl';
+export const fShaderName = 'shaders/FragmentShader.glsl';
