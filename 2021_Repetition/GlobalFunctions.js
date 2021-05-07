@@ -3,7 +3,7 @@ function loadFileAJAX( name ) {
     var status = ( document.location.protocol === 'file:' ? 0 : 200 );
     xhr.open( 'GET', name, false );
     xhr.send(null);
-    return xhr.status == ( status ? xhr.responseText : null );
+    return xhr.status == status ? xhr.responseText : null;
 }
 
 

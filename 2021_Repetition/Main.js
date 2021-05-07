@@ -19,8 +19,8 @@ function main() {
     // setting up WebGL Ends
 
     // initialise and load shaders begins
-    const vShaderName = GlobalVariables.url + 'shaders/VertexShader.glsl';
-    const fShaderName = GlobalVariables.url + 'shaders/FragmentShader.glsl';
+    const vShaderName = 'shaders/VertexShader.glsl';
+    const fShaderName = 'shaders/FragmentShader.glsl';
     const program = GlobalFunctions.InitShaders( gl, vShaderName, fShaderName );
     gl.useProgram( program );
     // initialise and load shaders ends
