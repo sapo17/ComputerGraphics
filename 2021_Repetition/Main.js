@@ -4,6 +4,7 @@ import Shape from './shape/Shape.js';
 
 window.onload = main();
 
+/** Starting Point of WebGL */
 function main() {
     
     // setting up WebGL Begins
