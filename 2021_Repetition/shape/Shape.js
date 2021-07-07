@@ -47,12 +47,12 @@ export default class Shape {
 
 
     transform( gl, translationVector, rotationVector, scalingVector ) {
-        GlobalFunctions.sendUniform3fv( gl, 
-            GlobalVariables.translationVectorLoc, translationVector );
-        GlobalFunctions.sendUniform3fv( gl,
-            GlobalVariables.rotationVectorLoc, rotationVector );
-        GlobalFunctions.sendUniform3fv( gl,
-            GlobalVariables.scalingVectorLoc, scalingVector );
+        gl.uniform3fv( GlobalVariables.translationVectorLoc, 
+            translationVector );
+        gl.uniform3fv( GlobalVariables.rotationVectorLoc, 
+            rotationVector );
+        gl.uniform3fv( GlobalVariables.scalingVectorLoc, 
+            scalingVector );
     }
 
 }

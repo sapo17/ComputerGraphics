@@ -11,7 +11,7 @@ mat4 getRotationMatrix( vec3 rotationVector ) {
 
     // compute the sines and cosines of thetat for each of
     // the three axes in one computation
-    vec3 angles = radians( theta );
+    vec3 angles = radians( rotationVector );
     vec3 c = cos( angles );
     vec3 s = sin( angles );
     

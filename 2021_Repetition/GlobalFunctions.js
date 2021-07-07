@@ -1,4 +1,4 @@
-import * as GlobalVariables from "./GlobalVariables";
+import * as GlobalVariables from "./GlobalVariables.js";
 
 function loadFileAJAX( name ) {
     var xhr = new XMLHttpRequest();
@@ -108,10 +108,4 @@ export function setUniformLocations( gl, program ) {
         'rotationVector');
     GlobalVariables.scalingVectorLoc = gl.getUniformLocation( program,
         'scalingVector');
-}
-
-
-// send three dimensional vector into the GPU
-export function sendUniform3fv( gl, uniformLocation, vector ) {
-    gl.uniform3fv( uniformLocation, vector );
 }
