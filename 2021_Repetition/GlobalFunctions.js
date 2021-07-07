@@ -1,5 +1,11 @@
 import * as GlobalVariables from "./GlobalVariables.js";
 
+
+/**
+ * prepares separated shader files for further use  ( e.g. compilation )
+ * @param {*} name shader file name to load
+ * @returns status whether shader file prepared successfully or not
+ */
 function loadFileAJAX( name ) {
     var xhr = new XMLHttpRequest();
     var status = ( document.location.protocol === 'file:' ? 0 : 200 );
@@ -9,6 +15,14 @@ function loadFileAJAX( name ) {
 }
 
 
+/**
+ * 
+ * @param {*} gl WebGL instance
+ * @param {*} vShaderName vertex shader file name
+ * @param {*} fShaderName fragment shader file name
+ * @returns a WebGL program that is initialized with given WebGL instance and
+ *  shaders
+ */
 export function InitShaders( gl, vShaderName, fShaderName ) {
     
 
@@ -54,9 +68,10 @@ export function InitShaders( gl, vShaderName, fShaderName ) {
 }
 
 
-// returns a new flattened Float32Array
-// if given argument is an Array,
-// otherwise throws an Error
+/**
+ * @param {*} array array content to flatten
+ * @returns a new flattened Float32Array
+ */
 export function array_flatter( array ) {
 
     if ( !(array instanceof Array) ) {
@@ -80,13 +95,18 @@ export function array_flatter( array ) {
 }
 
 
-// throws an error with the given error message
+/**
+ * @param {*} msg message to throw
+ */
 export function throw_error( msg ) {
     throw new Error( msg );
 }
 
 
-// throws an error if condition is failed
+/**
+ * @param {*} condition condition that leads to error
+ * @param {*} msg shown error message, if condition is true
+ */
 export function precondition( condition, msg ) {
     if ( condition ) {
         throw_error( msg );
@@ -94,13 +114,19 @@ export function precondition( condition, msg ) {
 }
 
 
-// throws an error indicating subclass responsibilty
+/**
+ * throws an error indicating subclass responsibilty
+ */
 export function throw_subclass_error() {
     throw_error( 'Subclass must implement this method' );
 }
 
 
-// set uniform variable locations
+/**
+ * set uniform variable locations
+ * @param {*} gl WebGL instance
+ * @param {*} program WebGL program instance
+ */
 export function setUniformLocations( gl, program ) {
     GlobalVariables.translationVectorLoc = gl.getUniformLocation( program,
         'translationVector');

@@ -7,6 +7,7 @@ uniform vec3 translationVector;
 uniform vec3 rotationVector;
 uniform vec3 scalingVector;
 
+/** returns the rotation matrix with the given rotation vector */
 mat4 getRotationMatrix( vec3 rotationVector ) {
 
     // compute the sines and cosines of thetat for each of
@@ -41,6 +42,7 @@ mat4 getRotationMatrix( vec3 rotationVector ) {
 }
 
 
+/** returns the scaling matrix given with the given scaling vector */
 mat4 getScalingMatrix( vec3 scalingVector ) {
     return mat4(
         scalingVector.x,             0.0,             0.0, 0.0,
@@ -51,6 +53,7 @@ mat4 getScalingMatrix( vec3 scalingVector ) {
 }
 
 
+/** returns the translation matrix with the given tranbslation vector */
 mat4 getTranslationMatrix( vec3 translationVector ) {
     return mat4(
                         1.0,                 0.0,                 0.0, 0.0,
@@ -61,6 +64,7 @@ mat4 getTranslationMatrix( vec3 translationVector ) {
 }
 
 
+/** starting point of the vertex shader */
 void main() {
     mat4 T = getTranslationMatrix( translationVector );
     mat4 R = getRotationMatrix( rotationVector );
