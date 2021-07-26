@@ -10,6 +10,9 @@ export default class Shape {
     constructor() {
         this.points = [];
         this.colors = [];
+        this.myTranslation = vec3.fromValues( 0, 0, 0 );
+        this.myRotation = vec3.fromValues( 0, 0, 0 );
+        this.myScale = vec3.fromValues( 1, 1, 1 );
     }
 
     
@@ -61,7 +64,7 @@ export default class Shape {
     /**
      * draws the shape
      * @param {*} gl WebGL instance 
-     * @param {*} glType drawing type ( e.g. TRIANGLES )
+     * @param {*} glType drawing type ( e.g. gl.TRIANGLES )
      */
     draw( gl, glType ) {
         GlobalFunctions.precondition( this.points.length !== this.colors.length,
@@ -78,6 +81,14 @@ export default class Shape {
      * @param {*} scalingVector describes amount of scaling
      */
     transform( gl, translationVector, rotationVector, scalingVector ) {
+
+        GlobalFunctions.precondition( translationVector.length === 0, 
+            "Empty translation vector" );
+        GlobalFunctions.precondition( rotationVector.length === 0, 
+            "Empty rotation vector" );
+        GlobalFunctions.precondition( scalingVector.length === 0, 
+            "Empty scaling vector" );
+
         gl.uniform3fv( GlobalVariables.default.translationVectorLoc, 
             translationVector );
         gl.uniform3fv( GlobalVariables.default.rotationVectorLoc, 
@@ -85,5 +96,31 @@ export default class Shape {
         gl.uniform3fv( GlobalVariables.default.scalingVectorLoc, 
             scalingVector );
     }
+
+
+    setMyRotation( rotationVector ) {
+        this.myRotation = rotationVector;
+    }
+
+
+    setMyTranslation( translationVector ) {
+        this.myTranslation = translationVector;
+    }
+
+
+    setMyScale( scalingVector ) {
+        this.myScale = scalingVector;
+    }
+
+
+    /**
+     * calls this.transform( ., ., ., . ) using my transformation vectors 
+     *  ( i.e. myScale, myRotation, myTranslation )
+     * @param {*} gl WebGL instance
+     */
+    transformThis( gl ) {
+        this.transform( gl, this.myTranslation, this.myRotation, this.myScale );
+    }
+
 
 }

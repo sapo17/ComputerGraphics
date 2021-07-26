@@ -1,6 +1,8 @@
 import * as GlobalVariables from './GlobalVariables.js';
 import * as GlobalFunctions from './GlobalFunctions.js';
 import Shape from './shape/Shape.js';
+import Triangle from './shape/Triangle.js';
+import Render from './Render.js';
 
 window.onload = main();
 
@@ -28,36 +30,14 @@ function main() {
     // initialise and load shaders ends
 
     // create shapes
-    const vertices = [
-        vec4.fromValues( 1.0, 0.0, 0.0, 1.0 ),
-        vec4.fromValues(-1.0, 0.0, 0.0, 1.0 ),
-        vec4.fromValues( 0.0, 1.0, 0.0, 1.0 ),
-    ];
-    const colors = [
-        [ 0.0, 1.0, 1.0, 1.0 ],
-        [ 1.0, 1.0, 0.0, 1.0 ],
-        [ 1.0, 0.0, 1.0, 1.0 ],
-    ];
-    const triangleCreator = () => {return vertices}
-    const triangleColorCreator = () => {return colors};
-    const triangle = new Shape();
-    triangle.create( triangleCreator, triangleColorCreator );
+    const shape = new Shape();
+    shape.create( Triangle.init().vertices, Triangle.init().colors )
     // create shapes ends
     
     // init render
-    
+    const render = new Render( gl, program );
+    render.addShape( shape );
+    render.renderShapes( gl.TRIANGLES );
     // init render ends
     
-    render();
-
-    
-    function render() {
-        gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        triangle.load( gl, program );
-        triangle.transform( gl, vec3.create(), vec3.create(), 
-            vec3.fromValues(0.5, 0.5, 0.5) );
-        triangle.draw( gl, gl.TRIANGLES );
-    }
-
-
 }

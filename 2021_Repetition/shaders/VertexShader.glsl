@@ -64,12 +64,21 @@ mat4 getTranslationMatrix( vec3 translationVector ) {
 }
 
 
-/** starting point of the vertex shader */
-void main() {
+/** returns the model-view matrix from the given transformation vectors */
+mat4 getModelViewMatrix( vec3 translationVector, vec3 rotationVector, 
+        vec3 scalingVector ) {
     mat4 T = getTranslationMatrix( translationVector );
     mat4 R = getRotationMatrix( rotationVector );
     mat4 S = getScalingMatrix( scalingVector );
-    mat4 M = T * R * S;
-    gl_Position = M * vPosition;
+    mat4 result = T * R * S;
+    return result;
+}
+
+
+/** starting point of the vertex shader */
+void main() {
+    mat4 modelViewMatrix = getModelViewMatrix( translationVector, 
+        rotationVector, scalingVector );
+    gl_Position = modelViewMatrix * vPosition;
     fColor = vColor;
 }
