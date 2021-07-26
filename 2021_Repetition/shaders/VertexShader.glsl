@@ -10,7 +10,7 @@ uniform vec3 scalingVector;
 /** returns the rotation matrix with the given rotation vector */
 mat4 getRotationMatrix( vec3 rotationVector ) {
 
-    // compute the sines and cosines of thetat for each of
+    // compute the sines and cosines of theta for each of
     // the three axes in one computation
     vec3 angles = radians( rotationVector );
     vec3 c = cos( angles );
@@ -69,7 +69,7 @@ void main() {
     mat4 T = getTranslationMatrix( translationVector );
     mat4 R = getRotationMatrix( rotationVector );
     mat4 S = getScalingMatrix( scalingVector );
-    mat4 temp = T * R * S;
-    gl_Position = temp * vPosition;
-    fColor = vec4( vColor.x, vColor.y, vColor.z, 1.0 );
+    mat4 M = T * R * S;
+    gl_Position = M * vPosition;
+    fColor = vColor;
 }

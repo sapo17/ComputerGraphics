@@ -128,10 +128,10 @@ export function throw_subclass_error() {
  * @param {*} program WebGL program instance
  */
 export function setUniformLocations( gl, program ) {
-    GlobalVariables.translationVectorLoc = gl.getUniformLocation( program,
-        'translationVector');
-    GlobalVariables.rotationVectorLoc = gl.getUniformLocation( program,
+    GlobalVariables.default.translationVectorLoc = gl.getUniformLocation( 
+        program, 'translationVector');
+    GlobalVariables.default.rotationVectorLoc = gl.getUniformLocation( program,
         'rotationVector');
-    GlobalVariables.scalingVectorLoc = gl.getUniformLocation( program,
+    GlobalVariables.default.scalingVectorLoc = gl.getUniformLocation( program,
         'scalingVector');
 }

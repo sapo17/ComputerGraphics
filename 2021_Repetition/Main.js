@@ -16,27 +16,27 @@ function main() {
     }
 
     gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.clearColor( 0, 0, 0, 1.0 );
+    gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
     gl.enable( gl.DEPTH_TEST );
     // setting up WebGL Ends
 
     // initialise and load shaders begins
     const program = GlobalFunctions.InitShaders( gl, 
-        GlobalVariables.vShaderName, GlobalVariables.fShaderName );
+        GlobalVariables.default.vShaderName, GlobalVariables.default.fShaderName );
     gl.useProgram( program );
     GlobalFunctions.setUniformLocations( gl, program );
     // initialise and load shaders ends
 
     // create shapes
     const vertices = [
-        vec3.fromValues( -1.0, -1.0, 0.0 ),
-        vec3.fromValues(  1.0, -1.0, 0.0 ),
-        vec3.fromValues(  0.0,  1.0, 0.0 ),
+        vec4.fromValues( 1.0, 0.0, 0.0, 1.0 ),
+        vec4.fromValues(-1.0, 0.0, 0.0, 1.0 ),
+        vec4.fromValues( 0.0, 1.0, 0.0, 1.0 ),
     ];
     const colors = [
-        [ 1.0, 0.0, 0.0, 1.0 ],
-        [ 1.0, 0.0, 0.0, 1.0 ],
-        [ 1.0, 0.0, 0.0, 1.0 ],
+        [ 0.0, 1.0, 1.0, 1.0 ],
+        [ 1.0, 1.0, 0.0, 1.0 ],
+        [ 1.0, 0.0, 1.0, 1.0 ],
     ];
     const triangleCreator = () => {return vertices}
     const triangleColorCreator = () => {return colors};
@@ -56,7 +56,7 @@ function main() {
         triangle.load( gl, program );
         triangle.transform( gl, vec3.create(), vec3.create(), 
             vec3.fromValues(0.5, 0.5, 0.5) );
-        triangle.draw( gl, TRIANGLES );
+        triangle.draw( gl, gl.TRIANGLES );
     }
 
 

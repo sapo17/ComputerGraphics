@@ -64,9 +64,9 @@ export default class Shape {
      * @param {*} glType drawing type ( e.g. TRIANGLES )
      */
     draw( gl, glType ) {
-        GlobalFunctions.precondition( this.points.length === this.colors.length,
+        GlobalFunctions.precondition( this.points.length !== this.colors.length,
             'points.len != colors.len' );
-        gl.drawArrays( gl.glType, 0, this.points.length );
+        gl.drawArrays( glType, 0, this.points.length );
     }
 
 
@@ -78,11 +78,11 @@ export default class Shape {
      * @param {*} scalingVector describes amount of scaling
      */
     transform( gl, translationVector, rotationVector, scalingVector ) {
-        gl.uniform3fv( GlobalVariables.translationVectorLoc, 
+        gl.uniform3fv( GlobalVariables.default.translationVectorLoc, 
             translationVector );
-        gl.uniform3fv( GlobalVariables.rotationVectorLoc, 
+        gl.uniform3fv( GlobalVariables.default.rotationVectorLoc, 
             rotationVector );
-        gl.uniform3fv( GlobalVariables.scalingVectorLoc, 
+        gl.uniform3fv( GlobalVariables.default.scalingVectorLoc, 
             scalingVector );
     }
 
