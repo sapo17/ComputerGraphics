@@ -134,4 +134,7 @@ export function setUniformLocations( gl, program ) {
         'rotationVector');
     GlobalVariables.default.scalingVectorLoc = gl.getUniformLocation( program,
         'scalingVector');
+    GlobalVariables.default.eyeLoc = gl.getUniformLocation( program, 'eye' );
+    GlobalVariables.default.atLoc = gl.getUniformLocation( program, 'at' );
+    GlobalVariables.default.upLoc = gl.getUniformLocation( program, 'up' );
 }

@@ -6,8 +6,11 @@ varying vec4 fColor;
 uniform vec3 translationVector;
 uniform vec3 rotationVector;
 uniform vec3 scalingVector;
+uniform vec3 eye;
+uniform vec3 at;
+uniform vec3 up;
 
-/** returns the rotation matrix with the given rotation vector */
+/** returns the rotation matrix from the given rotation vector */
 mat4 getRotationMatrix( vec3 rotationVector ) {
 
     // compute the sines and cosines of theta for each of
@@ -42,7 +45,7 @@ mat4 getRotationMatrix( vec3 rotationVector ) {
 }
 
 
-/** returns the scaling matrix given with the given scaling vector */
+/** returns the scaling matrix given from the given scaling vector */
 mat4 getScalingMatrix( vec3 scalingVector ) {
     return mat4(
         scalingVector.x,             0.0,             0.0, 0.0,
@@ -53,7 +56,7 @@ mat4 getScalingMatrix( vec3 scalingVector ) {
 }
 
 
-/** returns the translation matrix with the given tranbslation vector */
+/** returns the translation matrix from the given tranbslation vector */
 mat4 getTranslationMatrix( vec3 translationVector ) {
     return mat4(
                         1.0,                 0.0,                 0.0, 0.0,
@@ -65,7 +68,7 @@ mat4 getTranslationMatrix( vec3 translationVector ) {
 
 
 /** returns the model-view matrix from the given transformation vectors */
-mat4 getModelViewMatrix( vec3 translationVector, vec3 rotationVector, 
+mat4 getTransformationMatrix( vec3 translationVector, vec3 rotationVector, 
         vec3 scalingVector ) {
     mat4 T = getTranslationMatrix( translationVector );
     mat4 R = getRotationMatrix( rotationVector );
@@ -75,10 +78,32 @@ mat4 getModelViewMatrix( vec3 translationVector, vec3 rotationVector,
 }
 
 
+/** returns the model-view matrix from given vectors */
+mat4 lookAt( vec3 eye, vec3 at, vec3 up ) {
+
+    mat4 result = mat4( 1.0 );
+    
+    if ( any(notEqual(eye, at)) ) {
+        vec3 n = normalize( at - eye );     // view-plane normal
+        vec3 u = normalize( cross(up, n) ); // perpendicular vector
+        vec3 v = normalize( cross(n, u) );  // new up vector
+        n = -n;
+        result = mat4(
+                       u.x,           v.x,            n.x, 0.0,
+                       u.y,           v.y,            n.y, 0.0,
+                       u.z,           v.z,            n.z, 0.0,
+            -dot( u, eye ), -dot( v, eye), -dot( n, eye ), 1.0
+        );
+    } 
+
+    return result;
+}
+
+
 /** starting point of the vertex shader */
 void main() {
-    mat4 modelViewMatrix = getModelViewMatrix( translationVector, 
-        rotationVector, scalingVector );
+    mat4 modelViewMatrix = lookAt( eye, at, up ) * getTransformationMatrix(
+        translationVector, rotationVector, scalingVector );
     gl_Position = modelViewMatrix * vPosition;
     fColor = vColor;
 }

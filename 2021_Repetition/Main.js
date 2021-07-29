@@ -29,8 +29,16 @@ function main() {
     GlobalFunctions.setUniformLocations( gl, program );
     // initialise and load shaders ends
 
+    // Test start
+    gl.uniform3fv( GlobalVariables.default.eyeLoc, GlobalVariables.default.eye );
+    gl.uniform3fv( GlobalVariables.default.atLoc, GlobalVariables.default.at );
+    gl.uniform3fv( GlobalVariables.default.upLoc, GlobalVariables.default.up );
+    // test end
+
     // create shapes
     const shape = new Shape();
+    shape.setMyScale( vec3.fromValues(0.2, 0.2, 0.2) );
+    shape.setMyRotation( vec3.fromValues(0, 0, 180) );
     shape.create( Triangle.init().vertices, Triangle.init().colors )
     // create shapes ends
     
