@@ -3,6 +3,8 @@ import * as GlobalFunctions from './GlobalFunctions.js';
 import Shape from './shape/Shape.js';
 import Triangle from './shape/Triangle.js';
 import Render from './Render.js';
+import Square from './shape/Square.js';
+import Cube from './shape/Cube.js';
 
 window.onload = main();
 
@@ -36,15 +38,29 @@ function main() {
     // test end
 
     // create shapes
-    const shape = new Shape();
-    shape.setMyScale( vec3.fromValues(0.2, 0.2, 0.2) );
-    shape.setMyRotation( vec3.fromValues(0, 0, 180) );
-    shape.create( Triangle.init().vertices, Triangle.init().colors )
+    const squareOne = new Shape();
+    const triangleOne = new Shape();
+    const cubeOne = new Shape();
+
+    triangleOne.setMyScale( vec3.fromValues(0.2, 0.2, 0.2) );
+    triangleOne.setMyRotation( vec3.fromValues(0, 0, 180) );
+    triangleOne.setMyTranslation( vec3.fromValues(0, 0.5, 0) );
+    triangleOne.create( Triangle.init().vertices, Triangle.init().colors );
+
+    squareOne.setMyScale( vec3.fromValues( 0.2, 0.2, 0.2 ) );
+    squareOne.setMyTranslation( vec3.fromValues(0, -0.5, 0) );
+    squareOne.create( Square.init().vertices, Square.init().colors );
+
+    cubeOne.setMyScale( vec3.fromValues( 0.2, 0.2, 0.2 ) );
+    cubeOne.setMyRotation( vec3.fromValues( 45, 0, 0 ) );
+    cubeOne.create( Cube.init().vertices, Cube.init().colors );
     // create shapes ends
     
     // init render
     const render = new Render( gl, program );
-    render.addShape( shape );
+    render.addShape( triangleOne );
+    render.addShape( squareOne );
+    render.addShape( cubeOne );
     render.renderShapes( gl.TRIANGLES );
     // init render ends
     
