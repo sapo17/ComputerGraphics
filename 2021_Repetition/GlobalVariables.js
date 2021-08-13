@@ -7,7 +7,15 @@ export default {
   eyeLoc: '',
   upLoc: '',
   atLoc: '',
+  fovLoc: '',
+  aspectLoc: '',
+  nearLoc: '',
+  farLoc: '',
   eye: [0, 0, 1],
   up: [0, 1, 0],
-  at: [0, 0, -1]
+  at: [0, 0, -1],
+  fov: 90.0 * Math.PI / 180.0, // converted to radians
+  aspect: 1.0,
+  near: 0.1,
+  far: 30.0,
 };

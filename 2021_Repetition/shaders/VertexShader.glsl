@@ -10,6 +10,11 @@ uniform vec3 eye;
 uniform vec3 at;
 uniform vec3 up;
 
+uniform float fov;
+uniform float aspect;
+uniform float near;
+uniform float far;
+
 /** returns the rotation matrix from the given rotation vector */
 mat4 getRotationMatrix( vec3 rotationVector ) {
 
@@ -100,10 +105,31 @@ mat4 lookAt( vec3 eye, vec3 at, vec3 up ) {
 }
 
 
+/** returns the perspective projection matrix */
+mat4 getPerspectiveProjection( float fov, float aspect, float near, float far ) {
+
+    float f = 1.0 / tan( fov / 2.0 );
+    float d = far - near;
+
+    mat4 result = mat4( 1.0 );
+    if ( near > 0.0 && far > near ) {
+        result = mat4(
+            f / aspect, 0.0,                   0.0,  0.0,
+                   0.0,   f,                   0.0,  0.0,
+                   0.0, 0.0,   -( near + far ) / d, -1.0,
+                   0.0, 0.0, -2.0 * near * far / d,  0.0
+        );
+    }
+
+    return result;
+}
+
+
 /** starting point of the vertex shader */
 void main() {
     mat4 modelViewMatrix = lookAt( eye, at, up ) * getTransformationMatrix(
         translationVector, rotationVector, scalingVector );
-    gl_Position = modelViewMatrix * vPosition;
+    mat4 projectionMatrix = getPerspectiveProjection( fov, aspect, near, far );
+    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
     fColor = vColor;
 }

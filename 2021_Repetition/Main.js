@@ -32,9 +32,14 @@ function main() {
     // initialise and load shaders ends
 
     // Test start
+    GlobalVariables.default.aspect = canvas.width / canvas.height;
     gl.uniform3fv( GlobalVariables.default.eyeLoc, GlobalVariables.default.eye );
     gl.uniform3fv( GlobalVariables.default.atLoc, GlobalVariables.default.at );
     gl.uniform3fv( GlobalVariables.default.upLoc, GlobalVariables.default.up );
+    gl.uniform1f( GlobalVariables.default.fovLoc, GlobalVariables.default.fov );
+    gl.uniform1f( GlobalVariables.default.aspectLoc, GlobalVariables.default.aspect );
+    gl.uniform1f( GlobalVariables.default.nearLoc, GlobalVariables.default.near );
+    gl.uniform1f( GlobalVariables.default.farLoc, GlobalVariables.default.far );
     // test end
 
     // create shapes

@@ -137,4 +137,8 @@ export function setUniformLocations( gl, program ) {
     GlobalVariables.default.eyeLoc = gl.getUniformLocation( program, 'eye' );
     GlobalVariables.default.atLoc = gl.getUniformLocation( program, 'at' );
     GlobalVariables.default.upLoc = gl.getUniformLocation( program, 'up' );
+    GlobalVariables.default.fovLoc = gl.getUniformLocation( program, 'fov' );
+    GlobalVariables.default.aspectLoc = gl.getUniformLocation( program, 'aspect' );
+    GlobalVariables.default.nearLoc = gl.getUniformLocation( program, 'near' );
+    GlobalVariables.default.farLoc = gl.getUniformLocation( program, 'far' );
 }
